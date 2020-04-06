@@ -7,6 +7,13 @@
 <body>
 	<h2 th:text="${title}"></h2>
 	<hr>
+	<form action="list" method="post">
+		상품구분:
+		<select name="cid">
+				<option th:each="c : ${clist}" th:text="${c.type}" th:value="${c.cid}"></option>
+		</select>
+		<input type="submit" value="검색">
+	</form>
 	<table border="1" width="80%">
 		<thead>
 			<tr>

@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dao.CategoryDao;
 import com.example.demo.dao.ProductDao;
@@ -40,10 +43,18 @@ public class ProductController {
 	}
 	
 	
-	@GetMapping("/list")
-	public void list(Model model) {
+	@RequestMapping("/list")
+	public void list(Model model,@RequestParam(value = "cid", defaultValue = "0") int cid) {
+		System.out.println("카테코리번호:"+cid);
+		if(cid != 0) {
+			model.addAttribute("list",   cdao.getOne(cid).getProducts());
+		}else {
+			model.addAttribute("list", dao.findAll());
+		}
+		
 		model.addAttribute("title", "비트 쇼핑몰 상품목록");
-		model.addAttribute("list", dao.findAll());
+		model.addAttribute("clist", cdao.findAll());
+		
 	}
 	
 	@GetMapping("/delete")
