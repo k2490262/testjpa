@@ -30,13 +30,13 @@ public class ProductController {
 		this.dao = dao;
 	}
 
-	@GetMapping("/insert")
+	@GetMapping("/admin/insert")
 	public String insertForm(Model model) {
 		model.addAttribute("clist", cdao.findAll());
 		return "insert";
 	}
 	
-	@PostMapping("/insert")
+	@PostMapping("/admin/insert")
 	public String insertProduct(Product p) {
 		dao.save(p);
 		return "redirect:/list";
@@ -44,7 +44,8 @@ public class ProductController {
 	
 	
 	@RequestMapping("/list")
-	public void list(Model model,@RequestParam(value = "cid", defaultValue = "0") int cid) {
+	public void list(Model model,@RequestParam(value = "cid", 
+							defaultValue = "0") int cid) {
 		System.out.println("카테코리번호:"+cid);
 		if(cid != 0) {
 			model.addAttribute("list",   cdao.getOne(cid).getProducts());
@@ -57,13 +58,13 @@ public class ProductController {
 		
 	}
 	
-	@GetMapping("/delete")
+	@GetMapping("/admin/delete")
 	public String delete(int id) {
 		dao.deleteById(id);
 		return "redirect:/list";
 	}
 	
-	@GetMapping("/edit")
+	@GetMapping("/admin/edit")
 	public void edit(int id, Model model) {
 		System.out.println("editForm call.....................");
 	    System.out.println("id:"+id);
